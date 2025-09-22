@@ -1,17 +1,22 @@
-import { PrismaClient } from "@prisma/client/edge"
-import { withAccelerate } from "@prisma/extension-accelerate"
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
-// This helps prevent creating too many PrismaClient instances in development
-// due to Next.js's hot-reloading feature.
+// This function creates the extended Prisma client
+const prismaClientSingleton = () => {
+  return new PrismaClient().$extends(withAccelerate());
+};
+
+// Infer the type of the extended Prisma client
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
+
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
+  prisma: PrismaClientSingleton | undefined;
+};
+
+const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
+
+export const db = prisma;
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
 }
-
-// Initialize the Prisma Client, extending it with Accelerate
-const prisma =
-  globalForPrisma.prisma ?? new PrismaClient().$extends(withAccelerate())
-
-// Export the single instance
-export default prisma
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma

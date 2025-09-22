@@ -1,14 +1,18 @@
-import { SearchIcon } from "lucide-react"
-import Header from "./_components/header"
-import { Button } from "./_components/ui/button"
-import { Input } from "./_components/ui/input"
-import Image from "next/image"
-import { Card, CardContent } from "./_components/ui/card"
-import { Badge } from "./_components/ui/badge"
-import { Avatar, AvatarImage } from "./_components/ui/avatar"
-import BarbershopItem from "./_components/barbershop-item"
+import { SearchIcon } from "lucide-react";
+import Header from "./_components/header";
+import { Button } from "./_components/ui/button";
+import { Input } from "./_components/ui/input";
+import Image from "next/image";
+import { Card, CardContent } from "./_components/ui/card";
+import { Badge } from "./_components/ui/badge";
+import { Avatar, AvatarImage } from "./_components/ui/avatar";
+import BarbershopItem from "./_components/barbershop-item";
+import { db } from "./_lib/prisma";
+import { Barbershop } from "@prisma/client";
 
-export default function Home() {
+const Home = async () => {
+  const barbershops = await db.barbershop.findMany({});
+
   return (
     <>
       <Header />
@@ -60,8 +64,26 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <BarbershopItem />
+        <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
+          Recomendados
+        </h2>
+        <div className="-mr-5 flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {barbershops.map((barbershop: Barbershop) => (
+            <BarbershopItem barbershop={barbershop} key={barbershop.id} />
+          ))}
+        </div>
+
+        <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
+          Populares
+        </h2>
+        <div className="-mr-5 flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {barbershops.map((barbershop: Barbershop) => (
+            <BarbershopItem barbershop={barbershop} key={barbershop.id} />
+          ))}
+        </div>
       </div>
     </>
-  )
-}
+  );
+};
+
+export default Home;
