@@ -8,7 +8,6 @@ import { db } from "./_lib/prisma";
 import { Barbershop } from "@prisma/client";
 import { quickSearchOptions } from "./_constants/search";
 import BookingItem from "./_components/booking-item";
-import SideMenu from "./_components/side-menu";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({});
@@ -20,7 +19,6 @@ const Home = async () => {
 
   return (
     <>
-      <SideMenu />
       <Header />
 
       <div className="p-5">
@@ -65,7 +63,7 @@ const Home = async () => {
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Recomendados
         </h2>
-        <div className="-mr-5 flex gap-4 overflow-auto p-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mr-5 flex gap-4 overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {barbershops.map((barbershop: Barbershop) => (
             <BarbershopItem barbershop={barbershop} key={barbershop.id} />
           ))}
@@ -74,7 +72,7 @@ const Home = async () => {
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Populares
         </h2>
-        <div className="-mr-5 flex gap-4 overflow-auto p-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mr-5 flex gap-4 overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {popularBarbershops.map((barbershop: Barbershop) => (
             <BarbershopItem barbershop={barbershop} key={barbershop.id} />
           ))}

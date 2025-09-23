@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { quickSearchOptions } from "../_constants/search";
 
-const SideMenu = () => {
+const SideMenu2 = () => {
   return (
     <div className="fixed inset-0 z-10 hidden bg-[#0A0A0C]">
       <div className="fixed top-0 right-0 z-20 h-full w-[350px] bg-[#141518] px-5 py-6">
@@ -63,4 +63,4 @@ const SideMenu = () => {
   );
 };
 
-export default SideMenu;
+export default SideMenu2;
