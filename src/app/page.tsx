@@ -9,6 +9,7 @@ import { Barbershop } from "@prisma/client";
 import { Footer } from "./_components/footer";
 import { quickSearchOptions } from "./_constants/search";
 import BookingItem from "./_components/booking-item";
+import SideMenu from "./_components/side-menu";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({});
@@ -20,6 +21,7 @@ const Home = async () => {
 
   return (
     <>
+      <SideMenu />
       <Header />
 
       <div className="p-5">
@@ -42,8 +44,8 @@ const Home = async () => {
               <Image
                 src={option.imageURL}
                 alt={option.title}
-                width={24}
-                height={24}
+                width={16}
+                height={16}
               />
               {option.title}
             </Button>
