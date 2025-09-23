@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @theme {
   --color-background: oklch(100% 0 0);
@@ -38,7 +39,7 @@
     --color-foreground: oklch(0.9838 0.0035 247.86);
 
     --color-card: oklch(0.2208 0.008 274.56);
-      --color-card-foreground: oklch(0.9838 0.0035 247.86);
+    --color-card-foreground: oklch(0.9838 0.0035 247.86);
 
     --color-popover: oklch(0.2208 0.008 274.56);
     --color-popover-foreground: oklch(0.9838 0.0035 247.86);
