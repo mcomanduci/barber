@@ -6,7 +6,6 @@ import Image from "next/image";
 import BarbershopItem from "./_components/barbershop-item";
 import { db } from "./_lib/prisma";
 import { Barbershop } from "@prisma/client";
-import { Footer } from "./_components/footer";
 import { quickSearchOptions } from "./_constants/search";
 import BookingItem from "./_components/booking-item";
 import SideMenu from "./_components/side-menu";
@@ -81,8 +80,6 @@ const Home = async () => {
           ))}
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };
