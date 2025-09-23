@@ -8,20 +8,16 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { LogOutIcon, MenuIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "../_constants/search";
 
-const SidebarButton = () => {
+const Sidebar = ({ children }: { children: React.ReactNode }) => {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
-          <MenuIcon className="size-5" />
-        </Button>
-      </SheetTrigger>
+      <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="text-left">Menu</SheetTitle>
@@ -99,4 +95,4 @@ const SidebarButton = () => {
   );
 };
 
-export default SidebarButton;
+export default Sidebar;
