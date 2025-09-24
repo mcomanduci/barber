@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Sheet,
@@ -21,8 +23,11 @@ import {
   DialogTrigger,
   DialogContent,
 } from "./ui/dialog";
+import { signIn } from "next-auth/react";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  const handleLoginWithGoogleClick = () => signIn("google");
+
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
@@ -46,7 +51,12 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                   Conecte-se usando sua conta do Google.
                 </DialogDescription>
               </DialogHeader>
-              <Button className="gap-1 font-bold" variant="outline" size="lg">
+              <Button
+                className="gap-1 font-bold"
+                variant="outline"
+                size="lg"
+                onClick={handleLoginWithGoogleClick}
+              >
                 <Image
                   src="/google.svg"
                   alt="Google Icon"
