@@ -2,7 +2,7 @@ import React from "react";
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
-import { Avatar, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "../_constants/search";
@@ -17,6 +17,7 @@ const SidebarSheet = () => {
       <div className="item-center flex gap-3 border-b border-solid py-5">
         <Avatar className="h-12 w-12">
           <AvatarImage src="/avatar.png" alt="Avatar" />
+          <AvatarFallback>MC</AvatarFallback>
         </Avatar>
 
         <div className="flex min-w-0 flex-col justify-center">

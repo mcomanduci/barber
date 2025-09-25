@@ -20,6 +20,7 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
             alt={barbershop.name}
             fill
             className="rounded-2xl object-cover"
+            sizes="(max-width: 640px) 100vw, 159px"
           />
           <Badge
             className="bg-secondary/60 absolute top-2 left-2 space-x-0.5 rounded-2xl border-0 py-1 backdrop-blur-lg"

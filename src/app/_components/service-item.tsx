@@ -18,6 +18,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             alt={service.name}
             fill
             className="rounded-lg object-cover"
+            sizes={"(max-width: 640px) 100vw, 110px"}
           />
         </div>
         <div className="space-y-2">

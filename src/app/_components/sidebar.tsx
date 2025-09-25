@@ -11,7 +11,7 @@ import {
 } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { LogInIcon, LogOutIcon } from "lucide-react";
-// import { Avatar, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "../_constants/search";
@@ -23,10 +23,13 @@ import {
   DialogTrigger,
   DialogContent,
 } from "./ui/dialog";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Skeleton } from "./ui/skeleton";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
+  const { data, status } = useSession();
   const handleLoginWithGoogleClick = () => signIn("google");
+  const handleLogoutClick = () => signOut();
 
   return (
     <Sheet>
@@ -36,51 +39,71 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
           <SheetTitle className="text-left">Menu</SheetTitle>
         </SheetHeader>
 
-        <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
-          <h2 className="font-bold">Olá, faça seu login!</h2>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="icon">
-                <LogInIcon />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="w-[90%]">
-              <DialogHeader>
-                <DialogTitle>Faça login na plataform</DialogTitle>
-                <DialogDescription>
-                  Conecte-se usando sua conta do Google.
-                </DialogDescription>
-              </DialogHeader>
-              <Button
-                className="gap-1 font-bold"
-                variant="outline"
-                size="lg"
-                onClick={handleLoginWithGoogleClick}
-              >
-                <Image
-                  src="/google.svg"
-                  alt="Google Icon"
-                  width={18}
-                  height={18}
-                />
-                Google
-              </Button>
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        {/* <div className="item-center flex gap-3 border-b border-solid py-5">
-          <Avatar className="h-12 w-12">
-            <AvatarImage src="/avatar.png" alt="Avatar" />
-          </Avatar>
-
-          <div className="flex min-w-0 flex-col justify-center">
-            <p className="truncate font-bold">
-              Marcelo Comanduci Fernandes Neto
-            </p>
-            <p className="truncate text-xs">mcomanduci@gmail.com</p>
+        {status === "loading" ? (
+          <div className="item-center flex gap-3 border-b border-solid py-5">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="flex min-w-0 flex-col justify-center space-y-2">
+              <Skeleton className="h-4 w-28 rounded" />
+              <Skeleton className="h-3 w-32 rounded" />
+            </div>
           </div>
-        </div> */}
+        ) : data?.user ? (
+          <div className="item-center flex gap-3 border-b border-solid py-5">
+            <Avatar className="h-12 w-12">
+              <AvatarImage
+                src={data.user.image || ""}
+                alt="Avatar"
+                width={40}
+                height={40}
+              />
+              <AvatarFallback>
+                {data.user.name
+                  ?.split(" ")
+                  .map((name) => name[0])
+                  .join("")
+                  .toUpperCase()
+                  .slice(0, 2) || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex min-w-0 flex-col justify-center">
+              <p className="truncate font-bold">{data.user.name}</p>
+              <p className="truncate text-xs">{data.user.email}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between gap-3 border-b border-solid py-5">
+            <h2 className="font-bold">Olá, faça seu login!</h2>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="icon">
+                  <LogInIcon />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[90%]">
+                <DialogHeader>
+                  <DialogTitle>Faça login na plataform</DialogTitle>
+                  <DialogDescription>
+                    Conecte-se usando sua conta do Google.
+                  </DialogDescription>
+                </DialogHeader>
+                <Button
+                  className="gap-1 font-bold"
+                  variant="outline"
+                  size="lg"
+                  onClick={handleLoginWithGoogleClick}
+                >
+                  <Image
+                    src="/google.svg"
+                    alt="Google Icon"
+                    width={18}
+                    height={18}
+                  />
+                  Google
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
 
         <div className="flex flex-col gap-2 border-b border-solid py-5">
           <SheetClose asChild>
@@ -131,6 +154,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             className="justify-start gap-2 px-4"
             variant="ghost"
             size="lg"
+            onClick={handleLogoutClick}
           >
             <LogOutIcon size={18} />
             Sair da conta

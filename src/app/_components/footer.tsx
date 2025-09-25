@@ -4,7 +4,7 @@ import { Card, CardContent } from "./ui/card";
 export const Footer = () => {
   return (
     <footer>
-      <Card>
+      <Card className="">
         <CardContent className="px-5 py-6">
           <p className="text-sm text-gray-400">
             © 2023 Copyright <span className="font-bold">FSW Barber</span>
