@@ -7,6 +7,7 @@ import { Barbershop } from "@prisma/client";
 import { quickSearchOptions } from "./_constants/search";
 import BookingItem from "./_components/booking-item";
 import Search from "./_components/search";
+import Link from "next/link";
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({});
@@ -15,13 +16,14 @@ const Home = async () => {
       name: "desc",
     },
   });
+  const user = await db.user.findFirst();
 
   return (
     <>
       <Header />
 
       <div className="p-5">
-        <h2 className="text-xl font-bold">Olá, Marcelo!</h2>
+        <h2 className="text-xl font-bold">Olá, {user?.name}!</h2>
         <p>Segunda-feira, 22 de Setembro</p>
 
         <div className="mt-6">
@@ -34,14 +36,17 @@ const Home = async () => {
               key={option.title}
               className="mt-6 flex-1"
               variant="secondary"
+              asChild
             >
-              <Image
-                src={option.imageURL}
-                alt={option.title}
-                width={16}
-                height={16}
-              />
-              {option.title}
+              <Link href={`/barbershops?service=${option.title}`}>
+                <Image
+                  src={option.imageURL}
+                  alt={option.title}
+                  width={16}
+                  height={16}
+                />
+                {option.title}
+              </Link>
             </Button>
           ))}
         </div>

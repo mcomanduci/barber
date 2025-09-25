@@ -132,20 +132,24 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
 
         <div className="flex flex-col gap-2 border-b border-solid pb-5">
           {quickSearchOptions.map((option) => (
-            <Button
-              key={option.title}
-              variant="ghost"
-              className="justify-start gap-2 px-4"
-              size="lg"
-            >
-              <Image
-                src={option.imageURL}
-                alt={option.title}
-                width={18}
-                height={18}
-              />
-              <p>{option.title}</p>
-            </Button>
+            <SheetClose key={option.title} asChild>
+              <Button
+                variant="ghost"
+                className="justify-start gap-2 px-4"
+                size="lg"
+                asChild
+              >
+                <Link href={`/barbershops?service=${option.title}`}>
+                  <Image
+                    src={option.imageURL}
+                    alt={option.title}
+                    width={18}
+                    height={18}
+                  />
+                  <p>{option.title}</p>
+                </Link>
+              </Button>
+            </SheetClose>
           ))}
         </div>
 
