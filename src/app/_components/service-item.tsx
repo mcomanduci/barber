@@ -1,14 +1,30 @@
-import { BarbershopService } from "@prisma/client";
+"use client";
+
+import { Barbershop, BarbershopService } from "@prisma/client";
 import React from "react";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { Sheet, SheetTrigger } from "./ui/sheet";
+import CalendarComp from "./calendar-comp";
+
+// Create a type for serialized service with number price instead of Decimal
+type ServiceWithNumberPrice = Omit<BarbershopService, "price"> & {
+  price: number;
+};
 
 interface ServiceItemProps {
-  service: BarbershopService;
+  service: ServiceWithNumberPrice;
+  barbershop: Pick<Barbershop, "name">;
 }
 
-const ServiceItem = ({ service }: ServiceItemProps) => {
+const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+
+  const handleSheetOpenChange = (open: boolean) => {
+    setIsSheetOpen(open);
+  };
+
   return (
     <Card>
       <CardContent className="flex items-center gap-3 p-3">
@@ -31,9 +47,19 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                 currency: "BRL",
               }).format(Number(service.price))}
             </p>
-            <Button size="sm" variant="secondary">
-              Reservar
-            </Button>
+
+            <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
+              <SheetTrigger asChild>
+                <Button size="sm" variant="secondary">
+                  Reservar
+                </Button>
+              </SheetTrigger>
+              <CalendarComp
+                service={service}
+                barbershop={barbershop}
+                onSheetClose={() => setIsSheetOpen(false)}
+              />
+            </Sheet>
           </div>
         </div>
       </CardContent>

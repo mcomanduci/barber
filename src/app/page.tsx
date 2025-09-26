@@ -30,7 +30,7 @@ const Home = async () => {
           <Search />
         </div>
 
-        <div className="mt-6 -mr-5 flex gap-3 overflow-x-scroll pr-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mx-5 mt-6 flex gap-3 overflow-x-scroll pr-5 pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {quickSearchOptions.map((option) => (
             <Button
               key={option.title}
@@ -66,7 +66,7 @@ const Home = async () => {
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Recomendados
         </h2>
-        <div className="-mr-5 flex gap-4 overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mx-5 flex gap-4 overflow-auto pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {barbershops.map((barbershop: Barbershop) => (
             <BarbershopItem barbershop={barbershop} key={barbershop.id} />
           ))}
@@ -75,7 +75,7 @@ const Home = async () => {
         <h2 className="mt-6 mb-3 text-xs font-bold text-gray-400 uppercase">
           Populares
         </h2>
-        <div className="-mr-5 flex gap-4 overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="-mx-5 flex gap-4 overflow-auto pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {popularBarbershops.map((barbershop: Barbershop) => (
             <BarbershopItem barbershop={barbershop} key={barbershop.id} />
           ))}

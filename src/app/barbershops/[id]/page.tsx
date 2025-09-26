@@ -26,12 +26,21 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
     return notFound();
   }
 
+  // Convert Decimal prices to numbers for serialization
+  const barbershopWithSerializablePrices = {
+    ...barbershop,
+    services: barbershop.services.map((service) => ({
+      ...service,
+      price: Number(service.price),
+    })),
+  };
+
   return (
     <div>
       <div className="relative h-[250px] w-full">
         <Image
-          src={barbershop.imageURL}
-          alt={barbershop.name}
+          src={barbershopWithSerializablePrices.imageURL}
+          alt={barbershopWithSerializablePrices.name}
           fill
           className="object-cover"
         />
@@ -58,10 +67,12 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         </Sidebar>
       </div>
       <div className="border-b border-solid p-5">
-        <h1 className="mb-3 text-xl font-bold">{barbershop.name}</h1>
+        <h1 className="mb-3 text-xl font-bold">
+          {barbershopWithSerializablePrices.name}
+        </h1>
         <div className="item-center mb-2 flex gap-2">
           <MapPinIcon className="text-primary" size={18} />
-          <p className="text-sm">{barbershop.address}</p>
+          <p className="text-sm">{barbershopWithSerializablePrices.address}</p>
         </div>
         <div className="item-center flex gap-2">
           <StarIcon className="text-primary fill-primary" size={18} />
@@ -70,19 +81,25 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       </div>
       <div className="space-y-3 border-b border-solid p-5">
         <h2 className="text-xs font-bold text-gray-400 uppercase">Sobre nós</h2>
-        <p className="text-justify text-sm">{barbershop.description}</p>
+        <p className="text-justify text-sm">
+          {barbershopWithSerializablePrices.description}
+        </p>
       </div>
       <div className="space-y-3 border-b border-solid p-5">
         <h2 className="text-xs font-bold text-gray-400 uppercase">Serviços</h2>
         <div className="space-y-3">
-          {barbershop.services.map((service) => (
-            <ServiceItem key={service.id} service={service} />
+          {barbershopWithSerializablePrices.services.map((service) => (
+            <ServiceItem
+              key={service.id}
+              service={service}
+              barbershop={barbershopWithSerializablePrices}
+            />
           ))}
         </div>
       </div>
       <div className="space-y-3 p-5">
         <h2 className="text-xs font-bold text-gray-400 uppercase">Contato</h2>
-        {barbershop.phones.map((phone, index) => (
+        {barbershopWithSerializablePrices.phones.map((phone, index) => (
           <PhoneItems key={index + 1} phone={phone} />
         ))}
       </div>
